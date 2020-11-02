@@ -8,11 +8,16 @@ import {
 } from "@material-ui/core";
 import InfoBox from "./InfoBox.js";
 import Map from "./Map.js";
+import Table from "./Table.js";
+import { sortData } from "./util.js";
 import "./App.css";
+
 function App() {
   const [countries, setCountries] = useState([]); //variable and modifiers initialized into an array
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
+  const [tableData, setTableData] = useState([]);
+
   // STATE = How to write a variable in REACT <<<<<
   // useeffect = runs piece of code based on a condition (if statement)
 
@@ -38,6 +43,9 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
+          
+          const sortedData = sortData(data);
+          setTableData(sortedData);
           setCountries(countries);
         });
     };
@@ -111,6 +119,7 @@ function App() {
         <CardContent>
           {/* Table of Data*/}
           <h3>Live Cases by country</h3>
+          <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
         </CardContent>
         {/* Graph of Data */}
