@@ -1,13 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { MenuItem, FormControl, Select, Card, CardContent } from "@material-ui/core";
+import {
+  MenuItem,
+  FormControl,
+  Select,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 import InfoBox from "./InfoBox.js";
 import Map from "./Map.js";
 import "./App.css";
 function App() {
   const [countries, setCountries] = useState([]); //variable and modifiers initialized into an array
   const [country, setCountry] = useState("worldwide");
+  const [countryInfo, setCountryInfo] = useState({});
   // STATE = How to write a variable in REACT <<<<<
   // useeffect = runs piece of code based on a condition (if statement)
+
+  useEffect(() => {
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountryInfo(data);
+      });
+  }, []);
 
   useEffect(() => {
     //Code in here will run once when component loads, not again
@@ -30,9 +45,20 @@ function App() {
   }, []);
 
   //Event Listener Function
-  const onCountryChange = (event) => {
+  const onCountryChange = async (event) => {
     const countryCode = event.target.value;
     setCountry(countryCode);
+    const url =
+      countryCode === "worldwide"
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setCountry(countryCode);
+        setCountryInfo(data);
+      });
+    // pull information from database
   };
 
   return (
@@ -59,9 +85,21 @@ function App() {
 
         {/*3 Information Boxes*/}
         <div className="app__stats">
-          <InfoBox title="Coronavirus Cases" cases={123} total={2000} />
-          <InfoBox title="Recovered Cases" cases={1123} total={3000} />
-          <InfoBox title="Deaths" cases={12313} total={5000} />
+          <InfoBox
+            title="Coronavirus Cases"
+            cases={countryInfo.todayCases}
+            total={countryInfo.cases}
+          />
+          <InfoBox
+            title="Recovered Cases"
+            cases={countryInfo.todayRecovered}
+            total={countryInfo.recovered}
+          />
+          <InfoBox
+            title="Deaths"
+            cases={countryInfo.todayDeaths}
+            total={countryInfo.deaths}
+          />
         </div>
 
         {/* Map of cases */}
