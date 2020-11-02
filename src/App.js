@@ -3,6 +3,7 @@ import { MenuItem, FormControl, Select } from "@material-ui/core";
 import "./App.css";
 function App() {
   const [countries, setCountries] = useState([]); //variable and modifiers initialized into an array
+  const [country, setCountry] = useState("worldwide");
   // STATE = How to write a variable in REACT <<<<<
   // useeffect = runs piece of code based on a condition (if statement)
 
@@ -25,12 +26,22 @@ function App() {
     };
     getCountriesData();
   }, []);
+
+  //Event Listener Function
+  const onCountryChange = (event) => {
+    const countryCode = event.target.value;
+    setCountry(countryCode);
+  };
+
   return (
     <div className="app">
+      {/* Header */}
       <div className="app__header">
+        {/* Title and Dropdown */}
         <h1>COVID-19 Tracker</h1>
         <FormControl className="app__dropdown">
-          <Select variant="outlined" value="abc">
+          <Select variant="outlined" onChange={onCountryChange} value={country}>
+            <MenuItem value="worldwide">Worldwide</MenuItem>
             {/* Loop through all the countries and find stats based on them */}
             {countries.map((country) => (
               <MenuItem value={country.value}>{country.name}</MenuItem>
@@ -38,10 +49,12 @@ function App() {
           </Select>
         </FormControl>
       </div>
-      {/* Header */}
-      {/* Title and Dropdown */}
 
-      {/* 3 Information Boxes */}
+      <div className="app__stats">
+        {/*Information title = "Coranavirus Cases" */}
+        {/*Information Box title = "Coranavirus Recoveries" */}
+        {/*Information Box title = "Coronavirus Deaths" */}
+      </div>
 
       {/* Table of Data*/}
       {/* Graph of Data */}
