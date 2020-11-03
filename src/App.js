@@ -21,6 +21,7 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
 
   // STATE = How to write a variable in REACT <<<<<
   // useeffect = runs piece of code based on a condition (if statement)
@@ -50,6 +51,7 @@ function App() {
 
           const sortedData = sortData(data);
           setTableData(sortedData);
+          setMapCountries(data);
           setCountries(countries);
         });
     };
@@ -69,6 +71,8 @@ function App() {
       .then((data) => {
         setCountry(countryCode);
         setCountryInfo(data);
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(4);
       });
     // pull information from database
   };
@@ -116,7 +120,7 @@ function App() {
 
         {/* Map of cases */}
         <div className="map">
-          <Map center={mapCenter} zoom={mapZoom} />
+          <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
         </div>
       </div>
       <Card className="app__right">
