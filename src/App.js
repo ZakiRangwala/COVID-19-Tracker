@@ -9,9 +9,10 @@ import {
 import InfoBox from "./InfoBox.js";
 import Map from "./Map.js";
 import Table from "./Table.js";
-import { sortData } from "./util.js";
+import { sortData, prettyPrintStat } from "./util.js";
 import LineGraph from "./LineGraph.js";
 import "leaflet/dist/leaflet.css";
+import numeral from "numeral";
 import "./App.css";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(2);
   const [mapCountries, setMapCountries] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
 
   // STATE = How to write a variable in REACT <<<<<
   // useeffect = runs piece of code based on a condition (if statement)
@@ -102,25 +104,38 @@ function App() {
         {/*3 Information Boxes*/}
         <div className="app__stats">
           <InfoBox
+            onClick={(e) => setCasesType("cases")}
             title="Coronavirus Cases"
-            cases={countryInfo.todayCases}
-            total={countryInfo.cases}
+            isRed
+            active={casesType === "cases"}
+            cases={prettyPrintStat(countryInfo.todayCases)}
+            total={numeral(countryInfo.cases).format("0.0a")}
           />
           <InfoBox
-            title="Recovered Cases"
-            cases={countryInfo.todayRecovered}
-            total={countryInfo.recovered}
+            onClick={(e) => setCasesType("recovered")}
+            title="Recovered"
+            active={casesType === "recovered"}
+            cases={prettyPrintStat(countryInfo.todayRecovered)}
+            total={numeral(countryInfo.recovered).format("0.0a")}
           />
           <InfoBox
+            onClick={(e) => setCasesType("deaths")}
             title="Deaths"
-            cases={countryInfo.todayDeaths}
-            total={countryInfo.deaths}
+            isRed
+            active={casesType === "deaths"}
+            cases={prettyPrintStat(countryInfo.todayDeaths)}
+            total={numeral(countryInfo.deaths).format("0.0a")}
           />
         </div>
 
         {/* Map of cases */}
         <div className="map">
-          <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+          <Map
+            casesType={casesType}
+            countries={mapCountries}
+            center={mapCenter}
+            zoom={mapZoom}
+          />
         </div>
       </div>
       <Card className="app__right">
@@ -129,8 +144,8 @@ function App() {
           <h3>Live Cases by Country</h3>
           <Table countries={tableData} />
           {/* Graph of Data */}
-          <h3>New Cases Worldwide</h3>
-          <LineGraph />
+          <h3 className="app__graphTitle">New {casesType} Worldwide</h3>
+          <LineGraph className="app__graph" casesType={casesType} />
         </CardContent>
       </Card>
     </div>
