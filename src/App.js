@@ -11,6 +11,7 @@ import Map from "./Map.js";
 import Table from "./Table.js";
 import { sortData } from "./util.js";
 import LineGraph from "./LineGraph.js";
+import "leaflet/dist/leaflet.css";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapZoom, setMapZoom] = useState(3);
 
   // STATE = How to write a variable in REACT <<<<<
   // useeffect = runs piece of code based on a condition (if statement)
@@ -113,7 +116,7 @@ function App() {
 
         {/* Map of cases */}
         <div className="map">
-          <Map />
+          <Map center={mapCenter} zoom={mapZoom} />
         </div>
       </div>
       <Card className="app__right">
