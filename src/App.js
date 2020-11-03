@@ -9,7 +9,7 @@ import {
 import InfoBox from "./InfoBox.js";
 import Map from "./Map.js";
 import Table from "./Table.js";
-import { sortData, prettyPrintStat } from "./util.js";
+import { sortData, prettyPrintStat, ToUpperCase } from "./util.js";
 import LineGraph from "./LineGraph.js";
 import "leaflet/dist/leaflet.css";
 import numeral from "numeral";
@@ -145,7 +145,7 @@ function App() {
           <Table countries={tableData} />
         </CardContent>
         {/* Graph of Data */}
-        <h3 className="app__graphTitle">New {casesType} Worldwide</h3>
+        <h3 className="app__graphTitle">{ToUpperCase(casesType)} Worldwide</h3>
         <LineGraph className="app__graph" casesType={casesType} />
       </Card>
     </div>

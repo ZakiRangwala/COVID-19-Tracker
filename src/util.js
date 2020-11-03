@@ -37,6 +37,12 @@ export const sortData = (data) => {
   return sortedData;
 };
 
+//Uppercase Algorithm
+export const ToUpperCase = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+
+}
+
 // Format Numbers, make legible
 export const prettyPrintStat = (stat) =>
   stat ? `+${numeral(stat).format("0.0a")}` : "+0";
