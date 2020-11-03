@@ -1,6 +1,7 @@
 * {
   margin: 0;
-}
+  padding: 0;
+  box-sizing: border-box;}
 
 body {
   background-color: #f5f6fa;
@@ -38,6 +39,17 @@ body {
   flex: 0.9;
 }
 
+.app__right {
+  display: flex;
+  flex-direction: column;
+}
+
+.app__right.muiCardContent-root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .app__information > h3 {
   color: #6a5d5d;
   font-weight: 400;
@@ -47,6 +59,15 @@ body {
 
 .app__information > h3:last-of-type {
   margin-top: 1rem;
+}
+
+.app__graph {
+  margin-top : 2px;
+  flex-grow: 1;
+}
+
+.app__graphTitle {
+  margin-top: 2px;
 }
 
 @media (max-width: 990px) {
