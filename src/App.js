@@ -86,6 +86,12 @@ function App() {
         <div className="app__header">
           {/* Title and Dropdown */}
           <h1>COVID-19 Tracker</h1>
+          <img
+            onClick={() => window.open("https://zakirangwala.com")}
+            className="avatar"
+            src="https://zakirangwala.com/assets/img/avatar.png"
+            alt="Netflix Avatar"
+          />
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
