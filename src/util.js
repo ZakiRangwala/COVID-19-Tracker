@@ -37,6 +37,10 @@ export const sortData = (data) => {
   return sortedData;
 };
 
+// Format Numbers, make legible
+export const prettyPrintStat = (stat) =>
+  stat ? `+${numeral(stat).format("0.0a")}` : "+0";
+
 //DRAW circles on the map
 export const showDataOnMap = (data, casesType = "cases") =>
   data.map((country) => (
